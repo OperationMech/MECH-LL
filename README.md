@@ -20,7 +20,7 @@ Simply run `gulp` in the root directory to automatically build any changes to th
 Running The Code
 ================
 
-Go to:`operationmech.github.io\MECH-LL`
+Go to: operationmech.github.io\MECH-LL
 
 OR
 
