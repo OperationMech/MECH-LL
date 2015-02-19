@@ -15,3 +15,9 @@ h1 {
   font-style: normal;
   border-bottom: 1px solid black;
 }
+
+.main {
+    text-align: center;
+    padding-left: 500px;
+    max-width: 600px;
+}
