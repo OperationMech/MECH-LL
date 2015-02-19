@@ -1,10 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>MECH-LL</title>
-</head>
-<body>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="author"             content="Anthony Cali" />
+    <link rel="stylesheet" href="dist/style/mllc.css" type="text/css" media="screen" />
+    <title>
+        MECH-LL
+    </title>
 
+    <!-- Global Code -->
+    <script type="text/javascript" src="dist/scripts/global.js" />
+
+    <!-- Interface Control Code and Initialization -->
+    <script type="text/javascript" src="dist/scripts/init/control.js" />
+
+    <!-- Compiler Code & Objects -->
+    <script type="text/javascript" src="dist/scripts/compiler/compiler.js" />
+    <script type="text/javascript" src="dist/scripts/compiler/token.js" />
+    <script type="text/javascript" src="dist/scripts/compiler/tree.js" />
+</head>
+<body onload="onDocumentLoad()">
+   <div>
+      <h1>
+         MECH-LL
+      </h1>
+   </div>
+   <table>
+      <tr>
+          <td>
+              <label>
+                  Tree Area:
+                 <textarea id="taTreeArea"
+                           class="taTreeArea">
+                 </textarea>
+              </label>
+          </td>
+          <td>
+              <label>
+                 Code Area:
+                 <textarea id="taCodeArea"
+                           class="taCodeArea">
+                 </textarea>
+              </label>
+          </td>
+      </tr>
+      <tr>
+         <td>
+            <label>
+               Output:
+               <textarea id="taOutArea"
+                         class="taOutArea">
+               </textarea>
+            </label>
+         </td>
+         <td>
+            <label>
+               <textarea id="taErrArea"
+                         class="taErrArea">
+               </textarea>
+            </label>
+         </td>
+      </tr>
+   </table>
 </body>
 </html>
