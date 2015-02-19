@@ -1,0 +1,17 @@
+/* MLLC.css */
+
+body {
+  background: #dddddd;
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+  font-size: 12pt;
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  color: black;
+  font-size: 24pt;
+  font-weight: normal;
+  font-style: normal;
+  border-bottom: 1px solid black;
+}
