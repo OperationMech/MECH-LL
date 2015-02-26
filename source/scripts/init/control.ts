@@ -11,9 +11,9 @@ module MECH_LL {
 
         public static do_btnCompileClick(btn): void {
             // clear error log and other logs
-            ErrArea.value = null;
-            TreeArea.value = null;
-            OutputArea.value = null;
+            ErrArea.value = "";
+            TreeArea.value = "";
+            OutputArea.value = "";
 
             btn.disabled = true;
             MECH_LL.Compiler.doLex();
