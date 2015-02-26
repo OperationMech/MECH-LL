@@ -11,6 +11,10 @@ var MECH_LL;
             OutputArea = document.getElementById("taOutArea");
         };
         Control.do_btnCompileClick = function (btn) {
+            // clear error log and other logs
+            ErrArea.value = "";
+            TreeArea.value = "";
+            OutputArea.value = "";
             btn.disabled = true;
             MECH_LL.Compiler.doLex();
             btn.disabled = false;
