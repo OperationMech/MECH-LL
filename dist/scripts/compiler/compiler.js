@@ -8,31 +8,89 @@ var MECH_LL;
             var localCode = CodeArea.value;
             var curLine = 0;
             var curCol = 0;
+            var keyWord = "";
+            var extBoolOP = "";
             var locToken;
+            var inStrMode = false;
             var i = 0;
             while (i < localCode.length) {
-                if (localCode.match("{")) {
-                    locToken = new MECH_LL.Token(["T_LCBrace", "{"], curLine, localCode.match("{").index);
-                    Tokens.push(locToken);
-                }
-                if (localCode.match("print|while|if")) {
-                    locToken = new MECH_LL.Token(["T_KeyWrd", localCode.match("print|while|if")], curLine, localCode.match("print|while|if").index);
-                    Tokens.push(locToken);
-                }
-                if (localCode.match("int|string|boolean")) {
-                    locToken = new MECH_LL.Token(["T_TypeDef", localCode.match("int|string|boolean")], curLine, curCol);
-                    Tokens.push(locToken);
-                }
-                if (localCode.match("[0-9]")) {
-                    locToken = new MECH_LL.Token(["T_Digit", localCode.match("[0-9]")], curLine, curCol);
-                    Tokens.push(locToken);
-                }
-                if (localCode.match("[a-z]")) {
-                    locToken = new MECH_LL.Token(["T_ID", localCode.match("[a-z]")], curLine, curCol);
-                    Tokens.push(locToken);
-                }
-                if (localCode.match("\n")) {
-                    curLine++;
+                switch (localCode[i].match("[^a-zA-Z0-9]|[a-z]|[0-9]")[0]) {
+                    case "{":
+                        locToken = new MECH_LL.Token(["T_LCBrace", "{"], curLine, curCol);
+                        Tokens.push(locToken);
+                        break;
+                    case "}":
+                        locToken = new MECH_LL.Token(["T_RCBrace", "}"], curLine, curCol);
+                        Tokens.push(locToken);
+                        break;
+                    case "(":
+                        locToken = new MECH_LL.Token(["T_LParen", "("], curLine, curCol);
+                        Tokens.push(locToken);
+                        break;
+                    case ")":
+                        locToken = new MECH_LL.Token(["T_RParen", ")"], curLine, curCol);
+                        Tokens.push(locToken);
+                        break;
+                    case "\"":
+                        locToken = new MECH_LL.Token(["T_Quote", "\""], curLine, curCol);
+                        inStrMode = !inStrMode;
+                        Tokens.push(locToken);
+                        break;
+                    case "$":
+                        locToken = new MECH_LL.Token(["T_EOP", "$"], curLine, curCol);
+                        Tokens.push(locToken);
+                        if (localCode.length < 1 + i) {
+                            break;
+                        }
+                        ErrList.push("End of program is before end of code at [" + curLine + ", " + curCol + "]");
+                        break;
+                    case "\n":
+                        curLine++;
+                        break;
+                    case "!":
+                        if (extBoolOP.length < 2) {
+                            extBoolOP += "!";
+                        }
+                        else {
+                            extBoolOP += "";
+                        }
+                        break;
+                    case "=":
+                        locToken = new MECH_LL.Token(["T_AsignOP", "="], curLine, curCol);
+                        if (extBoolOP.length < 2) {
+                            extBoolOP += "=";
+                        }
+                        else {
+                            extBoolOP += "";
+                        }
+                        Tokens.push(locToken);
+                        break;
+                    case "+":
+                        locToken = new MECH_LL.Token(["T_IntPlusOP", "+"], curLine, curCol);
+                    case " ":
+                        if (inStrMode) {
+                            locToken = new MECH_LL.Token(["T_Space", " "], curLine, curCol);
+                            Tokens.push(locToken);
+                        }
+                        break;
+                    case localCode[i].match("[a-z]|[0-9]")[0]:
+                        if (parseInt(localCode[i], 10) < 10) {
+                            locToken = new MECH_LL.Token(["T_Digit", localCode[i]], curLine, curCol);
+                            Tokens.push(locToken);
+                            break;
+                        }
+                        locToken = new MECH_LL.Token(["T_ID", localCode[i]], curLine, curCol);
+                        if (keyWord.length < 7) {
+                            keyWord += localCode[i];
+                        }
+                        else {
+                            keyWord = "";
+                        }
+                        Tokens.push(locToken);
+                        break;
+                    default:
+                        ErrList.push("Invalid character at [" + curLine + ", " + curCol + "]");
+                        break;
                 }
                 i++;
                 curCol++;

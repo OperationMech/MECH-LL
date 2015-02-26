@@ -46,5 +46,5 @@ gulp.task('default', function() {
 	gulp.watch('source/scripts/*.ts',      ['compile-typescript']);
 	gulp.watch('source/scripts/init/*.ts', ['compile-typescript']);
 	gulp.watch('source/scripts/compiler/*.ts',   ['compile-typescript']);
-	gulp.watch('source/styles/*.css',      ['copy-css']);
+	gulp.watch('source/style/*.css',      ['copy-css']);
 });
