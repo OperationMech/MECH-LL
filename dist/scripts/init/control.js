@@ -18,10 +18,10 @@ var MECH_LL;
         Control.do_btnTreeSwap = function (btn) {
             if (isCST) {
                 isCST = false;
-                TreeArea.innerText = MECH_LL.Utils.printAST();
+                TreeArea.value = MECH_LL.Utils.printAST();
             }
             else {
-                TreeArea.innerText = MECH_LL.Utils.printCST();
+                TreeArea.value = MECH_LL.Utils.printCST();
             }
         };
         return Control;

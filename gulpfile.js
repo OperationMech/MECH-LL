@@ -33,8 +33,8 @@ gulp.task('compile-typescript', function() {
 // This is just to show some good front-end web development techniques.
 gulp.task('copy-css', function() {
 	var cssPaths = {
-		src: ['source/styles/*.css'],
-		dest: 'dist/styles/'
+		src: ['source/style/*.css'],
+		dest: 'dist/style/'
 	};
 
 	return gulp.src(cssPaths.src)

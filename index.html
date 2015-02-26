@@ -15,9 +15,9 @@
     <script type="text/javascript" src="dist/scripts/init/control.js" ></script>
 
     <!-- Compiler Code & Objects -->
-    <script type="text/javascript" src="dist/scripts/compiler/compiler.js" ></script>
     <script type="text/javascript" src="dist/scripts/compiler/token.js" ></script>
     <script type="text/javascript" src="dist/scripts/compiler/tree.js" ></script>
+    <script type="text/javascript" src="dist/scripts/compiler/compiler.js" ></script>
 </head>
 <body onload="onDocumentLoad()">
    <div class="main">
@@ -28,37 +28,50 @@
          <tr>
              <td>
                  <p>
-                    Tree Area:
+                    Tree Box:
                  </p>
                  <textarea id="taTreeArea"
-                           class="taTreeArea">
-                 </textarea>
+                           class="taTreeArea"
+                           readonly></textarea>
              </td>
              <td>
                  <p>
-                    Code Area:
+                    Raw Code:
                  </p>
                  <textarea id="taCodeArea"
-                              class="taCodeArea">
-                 </textarea>
+                           class="taCodeArea"></textarea>
              </td>
          </tr>
          <tr>
             <td>
                <p>
-                  Output:
+                  General Output:
                </p>
                <textarea id="taOutArea"
-                         class="taOutArea">
-               </textarea>
+                         class="taOutArea"
+                         readonly></textarea>
             </td>
             <td>
                <p>
                   Error Log:
                </p>
                <textarea id="taErrArea"
-                         class="taErrArea">
-               </textarea>
+                         class="taErrArea"
+                         readonly></textarea>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <input id="btnTreeSwap"
+                      value="Tree Swap"
+                      type="button"
+                      onclick="MECH_LL.Control.do_btnTreeSwap()">
+            </td>
+            <td>
+               <input id="btnCompile"
+                      value="Compile Code"
+                      type="button"
+                      onclick="MECH_LL.Control.do_btnCompileClick(this)">
             </td>
          </tr>
       </table>

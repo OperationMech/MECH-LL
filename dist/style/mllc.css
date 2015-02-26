@@ -17,7 +17,51 @@ h1 {
 }
 
 .main {
-   text-align: center;
-   padding-left: 500px;
-   max-width: 600px;
+    text-align: center;
+    padding-left: 500px;
+    max-width: 600px;
+}
+
+.taTreeArea {
+    border-top: 1px solid dimgrey;
+    border-left: 1px solid dimgrey;
+    border-right: 1px solid slategrey;
+    border-bottom: 1px solid slategray;
+    background-color: whitesmoke;
+    height: 200px;
+    width: 250px;
+    overflow-y: scroll;
+}
+
+.taCodeArea {
+    border-top: 1px solid dimgrey;
+    border-left: 1px solid dimgrey;
+    border-right: 1px solid slategrey;
+    border-bottom: 1px solid slategray;
+    background-color: whitesmoke;
+    height: 200px;
+    width: 340px;
+    overflow-y: scroll;
+}
+
+.taOutArea {
+    border-top: 1px solid dimgrey;
+    border-left: 1px solid dimgrey;
+    border-right: 1px solid slategrey;
+    border-bottom: 1px solid slategray;
+    background-color: whitesmoke;
+    height: 100px;
+    width: 250px;
+    overflow-y: scroll;
+}
+
+.taErrArea {
+    border-top: 1px solid dimgrey;
+    border-left: 1px solid dimgrey;
+    border-right: 1px solid slategrey;
+    border-bottom: 1px solid slategray;
+    background-color: whitesmoke;
+    height: 100px;
+    width: 340px;
+    overflow-y: scroll;
 }
