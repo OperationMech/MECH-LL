@@ -12,9 +12,9 @@ var MECH_LL;
         };
         Control.do_btnCompileClick = function (btn) {
             // clear error log and other logs
-            ErrArea.value = null;
-            TreeArea.value = null;
-            OutputArea.value = null;
+            ErrArea.value = "";
+            TreeArea.value = "";
+            OutputArea.value = "";
             btn.disabled = true;
             MECH_LL.Compiler.doLex();
             btn.disabled = false;
