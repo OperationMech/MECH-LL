@@ -121,10 +121,9 @@ var MECH_LL;
             i = 0;
             if (ErrList.length > 0) {
                 while (i < ErrList.length) {
-                    ErrArea.value = ErrArea.value + ErrList[i];
+                    ErrArea.value = ErrArea.value + ErrList.pop();
                     i++;
                 }
-                ErrList = Array("");
             }
             else {
             }
