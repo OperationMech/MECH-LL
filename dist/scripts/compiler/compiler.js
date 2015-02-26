@@ -118,10 +118,9 @@ var MECH_LL;
                 i++;
             }
             OutputArea.value = OutputArea.value + "Lex found the following tokens: " + strTokens + "\n";
-            i = 0;
             if (ErrList.length > 0) {
                 while (ErrList.length > 0) {
-                    ErrArea.value = ErrArea.value + ErrList.pop();
+                    ErrArea.value = ErrList.pop() + ErrArea.value;
                 }
             }
             else {
