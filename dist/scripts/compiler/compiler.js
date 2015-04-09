@@ -40,7 +40,7 @@ var MECH_LL;
                         locToken = new MECH_LL.Token(["T_EOP", "$"], curLine, curCol);
                         Tokens.push(locToken);
                         if (localCode.length < 1 + i) {
-                            break;
+                            break; // actually at the end of the file
                         }
                         ErrList.push("End of program is before end of code at [" + curLine + ", " + curCol + "]\n");
                         break;
@@ -107,14 +107,17 @@ var MECH_LL;
                 curCol++;
             }
             if (Tokens[Tokens.length - 1].value[0] != "T_EOP") {
-                OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator " + "'$' repairing.\n\n";
+                OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator "
+                    + "'$' repairing.\n\n";
                 locToken = new MECH_LL.Token(["T_EOP", "$"], curLine, curCol);
                 Tokens.push(locToken);
             }
             i = 0;
             var strTokens = "";
             while (i < Tokens.length) {
-                strTokens += "[" + Tokens[i].value[0] + "," + Tokens[i].value[1] + "] ";
+                strTokens += "[" + Tokens[i].value[0] +
+                    "," + Tokens[i].value[1] +
+                    "] ";
                 i++;
             }
             OutputArea.value = OutputArea.value + "Lex found the following tokens: " + strTokens + "\n";
