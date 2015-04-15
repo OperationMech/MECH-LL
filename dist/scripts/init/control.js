@@ -28,7 +28,7 @@ var MECH_LL;
                 TreeArea.value = MECH_LL.Utils.printCST();
             }
             else {
-                TreeArea.value = MECH_LL.Utils.printTree();
+                TreeArea.value = MECH_LL.Utils.printSymbTbl();
             }
         };
         return Control;
