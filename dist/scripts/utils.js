@@ -5,12 +5,19 @@ var MECH_LL;
         function Utils() {
         }
         Utils.printTree = function () {
-            if (isCST) {
+            if (isCST && !isSymbTbl) {
                 return MECH_LL.Utils.printCST();
             }
-            else {
+            else if (!isSymbTbl) {
                 return MECH_LL.Utils.printAST();
             }
+            else {
+                return MECH_LL.Utils.printSymbTbl();
+            }
+        };
+        Utils.printSymbTbl = function () {
+            var outStr = "";
+            return outStr;
         };
         Utils.printCST = function () {
             var outStr = "";

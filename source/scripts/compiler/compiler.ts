@@ -40,7 +40,8 @@ module MECH_LL {
                        if(localCode.length < 1+i){
                            break;  // actually at the end of the file
                        }
-                       ErrList.push("End of program is before end of code at ["+ curLine + ", " + curCol + "]\n");
+                       OutputArea.value = OutputArea.value +"End of program is before end of code " +
+                                                            "ignoring extraneous code.\n";
                        break;
                    case "\n":
                        curLine++;
@@ -53,11 +54,11 @@ module MECH_LL {
                            Tokens.push(locToken);
                            break;
                        } else {
-                           ErrList.push("Invalid character '!' at ["+ curLine + ", " + curCol + "]\n");
+                           ErrList.push("Invalid symbol '!' at ["+ curLine + ", " + curCol + "]\n");
                        }
                        break;
                    case "=":
-                       locToken = new Token(["T_AsignOP", "=" ],curLine,curCol);
+                       locToken = new Token(["T_AssignOP", "=" ],curLine,curCol);
                        if(localCode[i+1] == "="){
                            locToken = new Token(["T_BoolOP", "==" ],curLine,curCol);
                            i++;
@@ -79,7 +80,7 @@ module MECH_LL {
                        break;
                    case localCode[i].match("[a-z]|[0-9]|[A-Z]")[0]:
                        if(localCode[i] >= "A" && localCode[i] <= "Z") {
-                           ErrList.push("Invalid character '" + localCode[i] + "' at ["+ curLine + ", " + curCol + "]\n");
+                           ErrList.push("Invalid symbol '" + localCode[i] + "' at ["+ curLine + ", " + curCol + "]\n");
                            break;
                        }
                        if(parseInt(localCode[i],10) < 10) {
@@ -87,7 +88,7 @@ module MECH_LL {
                            Tokens.push(locToken);
                            break;
                        }
-                       locToken = new Token(["T_ID", localCode[i] ],curLine,curCol);
+                       locToken = new Token(["T_Char", localCode[i] ],curLine,curCol);
                        if(keyWord.length < 7) {
                            keyWord += localCode[i];
                        } else {
@@ -96,7 +97,7 @@ module MECH_LL {
                        Tokens.push(locToken);
                        break;
                    default:
-                       ErrList.push("Invalid character '" + localCode[i] + "' at ["+ curLine + ", " + curCol + "]\n");
+                       ErrList.push("Invalid symbol '" + localCode[i] + "' at ["+ curLine + ", " + curCol + "]\n");
                        break;
                }
 
@@ -124,7 +125,7 @@ module MECH_LL {
                     ErrArea.value = ErrList.pop() + ErrArea.value;
                 }
             } else {
-                // allow parse here
+               MECH_LL.Parser.doParseCode();
             }
         }
     }

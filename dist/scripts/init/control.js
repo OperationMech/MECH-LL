@@ -20,12 +20,15 @@ var MECH_LL;
             btn.disabled = false;
         };
         Control.do_btnTreeSwap = function (btn) {
-            if (isCST) {
+            if (isCST && !isSymbTbl) {
                 isCST = false;
                 TreeArea.value = MECH_LL.Utils.printAST();
             }
-            else {
+            else if (!isSymbTbl) {
                 TreeArea.value = MECH_LL.Utils.printCST();
+            }
+            else {
+                TreeArea.value = MECH_LL.Utils.printTree();
             }
         };
         return Control;

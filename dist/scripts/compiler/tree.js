@@ -2,21 +2,6 @@
 // Declares the tree definition and simple node
 var MECH_LL;
 (function (MECH_LL) {
-    var Tree = (function () {
-        function Tree(root) {
-            this.root = root;
-        }
-        Tree.addNode = function (nodeIn) {
-            if (root != null) {
-                root.children[head.children.length] = nodeIn;
-            }
-            else {
-                root = nodeIn;
-            }
-        };
-        return Tree;
-    })();
-    MECH_LL.Tree = Tree;
     var NODE = (function () {
         function NODE(parent, children, isLeaf, value) {
             if (parent === void 0) { parent = null; }
@@ -31,4 +16,25 @@ var MECH_LL;
         return NODE;
     })();
     MECH_LL.NODE = NODE;
+    var Tree = (function () {
+        function Tree() {
+            this.rt = null;
+            this.cur = null;
+        }
+        Tree.prototype.addNode = function (nodeIn) {
+            if (this.rt == null) {
+                this.rt = this.cur = nodeIn;
+            }
+            else {
+                nodeIn.parent = this.cur;
+                this.cur.children.push(nodeIn);
+                this.cur = nodeIn;
+                if (nodeIn.isLeaf) {
+                    this.cur = nodeIn.parent; // Reset parent if leaf node
+                }
+            }
+        };
+        return Tree;
+    })();
+    MECH_LL.Tree = Tree;
 })(MECH_LL || (MECH_LL = {}));

@@ -40,9 +40,9 @@ var MECH_LL;
                         locToken = new MECH_LL.Token(["T_EOP", "$"], curLine, curCol);
                         Tokens.push(locToken);
                         if (localCode.length < 1 + i) {
-                            break; // actually at the end of the file
+                            break;
                         }
-                        ErrList.push("End of program is before end of code at [" + curLine + ", " + curCol + "]\n");
+                        OutputArea.value = OutputArea.value + "End of program is before end of code " + "ignoring extraneous code.\n";
                         break;
                     case "\n":
                         curLine++;
@@ -56,11 +56,11 @@ var MECH_LL;
                             break;
                         }
                         else {
-                            ErrList.push("Invalid character '!' at [" + curLine + ", " + curCol + "]\n");
+                            ErrList.push("Invalid symbol '!' at [" + curLine + ", " + curCol + "]\n");
                         }
                         break;
                     case "=":
-                        locToken = new MECH_LL.Token(["T_AsignOP", "="], curLine, curCol);
+                        locToken = new MECH_LL.Token(["T_AssignOP", "="], curLine, curCol);
                         if (localCode[i + 1] == "=") {
                             locToken = new MECH_LL.Token(["T_BoolOP", "=="], curLine, curCol);
                             i++;
@@ -82,7 +82,7 @@ var MECH_LL;
                         break;
                     case localCode[i].match("[a-z]|[0-9]|[A-Z]")[0]:
                         if (localCode[i] >= "A" && localCode[i] <= "Z") {
-                            ErrList.push("Invalid character '" + localCode[i] + "' at [" + curLine + ", " + curCol + "]\n");
+                            ErrList.push("Invalid symbol '" + localCode[i] + "' at [" + curLine + ", " + curCol + "]\n");
                             break;
                         }
                         if (parseInt(localCode[i], 10) < 10) {
@@ -90,7 +90,7 @@ var MECH_LL;
                             Tokens.push(locToken);
                             break;
                         }
-                        locToken = new MECH_LL.Token(["T_ID", localCode[i]], curLine, curCol);
+                        locToken = new MECH_LL.Token(["T_Char", localCode[i]], curLine, curCol);
                         if (keyWord.length < 7) {
                             keyWord += localCode[i];
                         }
@@ -100,24 +100,21 @@ var MECH_LL;
                         Tokens.push(locToken);
                         break;
                     default:
-                        ErrList.push("Invalid character '" + localCode[i] + "' at [" + curLine + ", " + curCol + "]\n");
+                        ErrList.push("Invalid symbol '" + localCode[i] + "' at [" + curLine + ", " + curCol + "]\n");
                         break;
                 }
                 i++;
                 curCol++;
             }
             if (Tokens[Tokens.length - 1].value[0] != "T_EOP") {
-                OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator "
-                    + "'$' repairing.\n\n";
+                OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator " + "'$' repairing.\n\n";
                 locToken = new MECH_LL.Token(["T_EOP", "$"], curLine, curCol);
                 Tokens.push(locToken);
             }
             i = 0;
             var strTokens = "";
             while (i < Tokens.length) {
-                strTokens += "[" + Tokens[i].value[0] +
-                    "," + Tokens[i].value[1] +
-                    "] ";
+                strTokens += "[" + Tokens[i].value[0] + "," + Tokens[i].value[1] + "] ";
                 i++;
             }
             OutputArea.value = OutputArea.value + "Lex found the following tokens: " + strTokens + "\n";
@@ -127,6 +124,7 @@ var MECH_LL;
                 }
             }
             else {
+                MECH_LL.Parser.doParseCode();
             }
         };
         return Compiler;

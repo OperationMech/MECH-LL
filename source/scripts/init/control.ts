@@ -21,11 +21,13 @@ module MECH_LL {
         }
 
         public static do_btnTreeSwap(btn): void {
-            if(isCST) {
+            if(isCST && !isSymbTbl ) {
                 isCST = false;
                 TreeArea.value = MECH_LL.Utils.printAST();
-            } else {
+            } else if(!isSymbTbl) {
                 TreeArea.value = MECH_LL.Utils.printCST();
+            } else {
+                TreeArea.value = MECH_LL.Utils.printTree();
             }
         }
     }

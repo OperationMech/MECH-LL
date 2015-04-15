@@ -1,7 +1,5 @@
 // Global declarations for the compiler including the symbol table and error list
 
-var SymTable = Array();
-
 var ErrList: String[] = Array("");
 
 // HTML area elements
@@ -10,8 +8,9 @@ var ErrArea: HTMLTextAreaElement;
 var TreeArea: HTMLTextAreaElement;
 var OutputArea: HTMLTextAreaElement;
 
-// Tree output swap var
+// Visualization swap vars
 var isCST = true;
+var isSymbTbl = false;
 
 // Token stream
 var Tokens = Array();
@@ -19,6 +18,9 @@ var Tokens = Array();
 // Syntax Trees
 var CSyntaxTree;
 var ASyntaxTree;
+
+// Symbol table tree
+var SymTable;
 
 
 var onDocumentLoad = function () {
