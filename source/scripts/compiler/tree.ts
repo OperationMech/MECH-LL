@@ -6,7 +6,7 @@ module MECH_LL {
     export class NODE {
         constructor (
             public parent:NODE = null,
-            public children:NODE[] = null,
+            public children:NODE[] = [],
             public isLeaf:boolean = false,
             public value:any = []
             ) {}
@@ -24,6 +24,14 @@ module MECH_LL {
         public addNode(nodeIn:NODE): void {
             if(this.rt == null) {
                 this.rt = this.cur = nodeIn;
+            } else if(this.cur.children == null) {
+                nodeIn.parent = this.cur;
+                this.cur.children = [nodeIn];
+                this.cur = nodeIn;
+                if(nodeIn.isLeaf) {
+                    this.cur = nodeIn.parent; // Reset parent if leaf node
+                }
+
             } else {
                 nodeIn.parent = this.cur;
                 this.cur.children.push(nodeIn);
@@ -31,7 +39,15 @@ module MECH_LL {
                 if(nodeIn.isLeaf) {
                     this.cur = nodeIn.parent; // Reset parent if leaf node
                 }
+            }
+        }
 
+        public returnCurrentPtrToParent(): void {
+            if(this.cur.parent == null ){
+                // fall off tree prevention
+                this.cur = this.rt;
+            } else {
+                this.cur = this.cur.parent;
             }
         }
     }

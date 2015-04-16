@@ -10,7 +10,7 @@ var MECH_LL;
         ParserCST.parseProgram = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["Program"]));
             MECH_LL.ParserCST.parseBlock();
-            if (Tokens[MECH_LL.ParserCST.count].value[0] === "T_EOP") {
+            if (Tokens[MECH_LL.ParserCST.count].value[0] === "T_EOF") {
                 CSyntaxTree.addNode(new MECH_LL.NODE(null, null, true, Tokens[MECH_LL.ParserCST.count].value));
             }
             else {
@@ -37,6 +37,7 @@ var MECH_LL;
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseStatementList = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["StmtList"]));
@@ -46,6 +47,7 @@ var MECH_LL;
                 MECH_LL.ParserCST.parseStatement();
                 MECH_LL.ParserCST.parseStatementList();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseStatement = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["Stmt"]));
@@ -64,9 +66,10 @@ var MECH_LL;
             else if (Tokens[MECH_LL.ParserCST.count].value[0] === "T_Kwdif") {
                 MECH_LL.ParserCST.parseIfStatement();
             }
-            else {
+            else if (Tokens[MECH_LL.ParserCST.count].value[0] === "T_LCBrace") {
                 MECH_LL.ParserCST.parseBlock();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parsePrintStatement = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["PrintStmt"]));
@@ -88,6 +91,7 @@ var MECH_LL;
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseAssignmentStatement = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["AssignStmt"]));
@@ -101,11 +105,13 @@ var MECH_LL;
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseVarDecl = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["VarDecl"]));
             MECH_LL.ParserCST.parseType();
             MECH_LL.ParserCST.parseId();
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseWhileStatement = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["WhileStmt"]));
@@ -118,6 +124,7 @@ var MECH_LL;
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseIfStatement = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["IfStmt"]));
@@ -130,6 +137,7 @@ var MECH_LL;
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseExpr = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["Expr"]));
@@ -145,6 +153,7 @@ var MECH_LL;
             else {
                 MECH_LL.ParserCST.parseId();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseIntExpr = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["IntExpr"]));
@@ -156,6 +165,7 @@ var MECH_LL;
             }
             else {
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseStringExpr = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["StringExpr"]));
@@ -176,6 +186,7 @@ var MECH_LL;
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseBooleanExpr = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["BooleanExpr"]));
@@ -204,10 +215,12 @@ var MECH_LL;
             else {
                 MECH_LL.ParserCST.parseBoolval();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseId = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["Id"]));
             MECH_LL.ParserCST.parseChar();
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseCharList = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["CharList"]));
@@ -221,6 +234,7 @@ var MECH_LL;
                 MECH_LL.ParserCST.parseSpace();
                 MECH_LL.ParserCST.parseCharList();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         };
         ParserCST.parseType = function () {
             if (Tokens[MECH_LL.ParserCST.count].value[0] === "T_Type") {

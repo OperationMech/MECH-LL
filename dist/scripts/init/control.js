@@ -9,6 +9,9 @@ var MECH_LL;
             ErrArea = document.getElementById("taErrArea");
             TreeArea = document.getElementById("taTreeArea");
             OutputArea = document.getElementById("taOutArea");
+            CSyntaxTree = new MECH_LL.Tree;
+            ASyntaxTree = new MECH_LL.Tree;
+            SymTable = new MECH_LL.Tree;
         };
         Control.do_btnCompileClick = function (btn) {
             // clear error log and other logs

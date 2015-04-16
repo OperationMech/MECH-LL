@@ -7,6 +7,10 @@ module MECH_LL {
             ErrArea = (<HTMLTextAreaElement>document.getElementById("taErrArea"));
             TreeArea = (<HTMLTextAreaElement>document.getElementById("taTreeArea"));
             OutputArea = (<HTMLTextAreaElement>document.getElementById("taOutArea"));
+
+            CSyntaxTree = new MECH_LL.Tree;
+            ASyntaxTree = new MECH_LL.Tree;
+            SymTable = new MECH_LL.Tree;
         }
 
         public static do_btnCompileClick(btn): void {

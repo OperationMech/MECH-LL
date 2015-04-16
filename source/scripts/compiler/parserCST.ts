@@ -11,7 +11,7 @@ module MECH_LL {
         public static parseProgram(): void {
             CSyntaxTree.addNode(new NODE(null,null,false,["Program"]));
             MECH_LL.ParserCST.parseBlock();
-            if(Tokens[MECH_LL.ParserCST.count].value[0] === "T_EOP") {
+            if(Tokens[MECH_LL.ParserCST.count].value[0] === "T_EOF") {
                 CSyntaxTree.addNode(new NODE(null,null,true,Tokens[MECH_LL.ParserCST.count].value));
             } else {
                 // raise exception halt compilation
@@ -37,7 +37,7 @@ module MECH_LL {
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
-
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseStatementList(): void {
@@ -48,6 +48,7 @@ module MECH_LL {
                 MECH_LL.ParserCST.parseStatement();
                 MECH_LL.ParserCST.parseStatementList();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseStatement(): void {
@@ -62,9 +63,10 @@ module MECH_LL {
                 MECH_LL.ParserCST.parseWhileStatement();
             } else if(Tokens[MECH_LL.ParserCST.count].value[0] === "T_Kwdif") {
                 MECH_LL.ParserCST.parseIfStatement();
-            } else {
+            } else if(Tokens[MECH_LL.ParserCST.count].value[0] === "T_LCBrace") {
                 MECH_LL.ParserCST.parseBlock();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parsePrintStatement(): void {
@@ -85,6 +87,7 @@ module MECH_LL {
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseAssignmentStatement(): void {
@@ -98,12 +101,14 @@ module MECH_LL {
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseVarDecl(): void {
             CSyntaxTree.addNode(new NODE(null,null,false,["VarDecl"]));
             MECH_LL.ParserCST.parseType();
             MECH_LL.ParserCST.parseId();
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseWhileStatement(): void {
@@ -116,6 +121,7 @@ module MECH_LL {
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseIfStatement(): void {
@@ -128,6 +134,7 @@ module MECH_LL {
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseExpr(): void {
@@ -142,6 +149,7 @@ module MECH_LL {
             } else {
                 MECH_LL.ParserCST.parseId();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseIntExpr(): void {
@@ -154,6 +162,7 @@ module MECH_LL {
             } else {
                 // only is a digit
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseStringExpr(): void {
@@ -173,6 +182,7 @@ module MECH_LL {
                 // raise exception and halt
                 MECH_LL.ParserCST.raiseExceptionAndHalt();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseBooleanExpr(): void {
@@ -200,11 +210,13 @@ module MECH_LL {
             } else {
                 MECH_LL.ParserCST.parseBoolval();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseId(): void {
             CSyntaxTree.addNode(new NODE(null,null,false,["Id"]));
             MECH_LL.ParserCST.parseChar();
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseCharList(): void {
@@ -219,6 +231,7 @@ module MECH_LL {
                 MECH_LL.ParserCST.parseSpace();
                 MECH_LL.ParserCST.parseCharList();
             }
+            CSyntaxTree.returnCurrentPtrToParent();
         }
 
         public static parseType(): void {

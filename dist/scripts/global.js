@@ -1,5 +1,5 @@
 // Global declarations for the compiler including the symbol table and error list
-var ErrList = Array("");
+var ErrList = Array();
 // HTML area elements
 var CodeArea;
 var ErrArea;
@@ -15,7 +15,9 @@ var CSyntaxTree;
 var ASyntaxTree;
 // Symbol table tree
 var SymTable;
+// Error has been caught
 var ParseError = false;
+var ContentError = false;
 var onDocumentLoad = function () {
     MECH_LL.Control.init();
 };

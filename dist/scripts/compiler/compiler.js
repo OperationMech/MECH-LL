@@ -12,103 +12,131 @@ var MECH_LL;
             var locToken;
             var inStrMode = false;
             var i = 0;
-            OutputArea.value = "Compiling the code...\n";
+            OutputArea.value = "Compiling the code...\n\n";
             while (i < localCode.length) {
-                switch (localCode[i].match("[^a-zA-Z0-9]|[a-z]|[0-9]|")[0]) {
-                    case "{":
-                        locToken = new MECH_LL.Token(["T_LCBrace", "{"], curLine, curCol);
-                        Tokens.push(locToken);
-                        break;
-                    case "}":
-                        locToken = new MECH_LL.Token(["T_RCBrace", "}"], curLine, curCol);
-                        Tokens.push(locToken);
-                        break;
-                    case "(":
-                        locToken = new MECH_LL.Token(["T_LParen", "("], curLine, curCol);
-                        Tokens.push(locToken);
-                        break;
-                    case ")":
-                        locToken = new MECH_LL.Token(["T_RParen", ")"], curLine, curCol);
-                        Tokens.push(locToken);
-                        break;
-                    case "\"":
-                        locToken = new MECH_LL.Token(["T_Quote", "\""], curLine, curCol);
-                        inStrMode = !inStrMode;
-                        Tokens.push(locToken);
-                        break;
-                    case "$":
-                        locToken = new MECH_LL.Token(["T_EOP", "$"], curLine, curCol);
-                        Tokens.push(locToken);
-                        if (localCode.length < 1 + i) {
-                            break;
+                if (localCode[i].match("[^a-zA-Z0-9]|[a-z]|[0-9]|")) {
+                    if (localCode[i].match("[a-z]")) {
+                        if (!inStrMode && keyWord.length < 8) {
+                            keyWord = keyWord + localCode[i];
                         }
-                        OutputArea.value = OutputArea.value + "End of program is before end of code " + "ignoring extraneous code.\n";
-                        break;
-                    case "\n":
-                        curLine++;
-                        break;
-                    case "!":
-                        if (localCode[i + 1] == "=") {
-                            locToken = new MECH_LL.Token(["T_BoolOP", "!="], curLine, curCol);
-                            i++;
-                            curCol++;
-                            Tokens.push(locToken);
-                            break;
-                        }
-                        else {
-                            ErrList.push("Invalid symbol '!' at [" + curLine + ", " + curCol + "]\n");
-                        }
-                        break;
-                    case "=":
-                        locToken = new MECH_LL.Token(["T_AssignOP", "="], curLine, curCol);
-                        if (localCode[i + 1] == "=") {
-                            locToken = new MECH_LL.Token(["T_BoolOP", "=="], curLine, curCol);
-                            i++;
-                            curCol++;
-                            Tokens.push(locToken);
-                            break;
-                        }
-                        Tokens.push(locToken);
-                        break;
-                    case "+":
-                        locToken = new MECH_LL.Token(["T_IntOP", "+"], curLine, curCol);
-                        Tokens.push(locToken);
-                        break;
-                    case " ":
-                        if (inStrMode) {
-                            locToken = new MECH_LL.Token(["T_Space", " "], curLine, curCol);
-                            Tokens.push(locToken);
-                        }
-                        break;
-                    case localCode[i].match("[a-z]|[0-9]|[A-Z]")[0]:
-                        if (localCode[i] >= "A" && localCode[i] <= "Z") {
-                            ErrList.push("Invalid symbol '" + localCode[i] + "' at [" + curLine + ", " + curCol + "]\n");
-                            break;
-                        }
-                        if (parseInt(localCode[i], 10) < 10) {
-                            locToken = new MECH_LL.Token(["T_Digit", localCode[i]], curLine, curCol);
-                            Tokens.push(locToken);
-                            break;
-                        }
-                        locToken = new MECH_LL.Token(["T_Char", localCode[i]], curLine, curCol);
-                        if (keyWord.length < 7) {
-                            keyWord += localCode[i];
+                        else if (!inStrMode) {
+                            keyWord = localCode[i];
                         }
                         else {
                             keyWord = "";
                         }
-                        Tokens.push(locToken);
-                        break;
-                    default:
-                        ErrList.push("Invalid symbol '" + localCode[i] + "' at [" + curLine + ", " + curCol + "]\n");
-                        break;
+                        Tokens.push(new MECH_LL.Token(["T_Char", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                    }
+                    else if (localCode[i] === "{" && !inStrMode) {
+                        Tokens.push(new MECH_LL.Token(["T_LCBrace", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                    }
+                    else if (localCode[i] === "}" && !inStrMode) {
+                        Tokens.push(new MECH_LL.Token(["T_RCBrace", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                    }
+                    else if (localCode[i] === "(" && !inStrMode) {
+                        Tokens.push(new MECH_LL.Token(["T_LParen", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                    }
+                    else if (localCode[i] === ")" && !inStrMode) {
+                        Tokens.push(new MECH_LL.Token(["T_RParen", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                    }
+                    else if (localCode[i] === "=" && !inStrMode) {
+                        if (localCode[i + 1] === "=") {
+                            Tokens.push(new MECH_LL.Token(["T_BoolOP", localCode[i] + localCode[i + 1]], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + localCode[i + 1] + "\n";
+                            curCol++;
+                            i++;
+                        }
+                        else {
+                            Tokens.push(new MECH_LL.Token(["T_AssignOP", localCode[i]], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                        }
+                        keyWord = "";
+                    }
+                    else if (localCode[i] === "!" && !inStrMode) {
+                        if (localCode[i + 1] === "=") {
+                            Tokens.push(new MECH_LL.Token(["T_BoolOP", localCode[i] + localCode[i + 1]], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + localCode[i + 1] + "\n";
+                            curCol++;
+                            i++;
+                        }
+                    }
+                    else if (localCode[i] === "\n" && !inStrMode) {
+                        curLine++;
+                        curCol = 0;
+                        keyWord = "";
+                    }
+                    else if (localCode[i] === " ") {
+                        if (inStrMode) {
+                            Tokens.push(new MECH_LL.Token(["T_Space", localCode[i]], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "Found token: space\n";
+                        }
+                        else {
+                            curCol++;
+                        }
+                        keyWord = "";
+                    }
+                    else if (localCode[i] === "\"") {
+                        Tokens.push(new MECH_LL.Token(["T_Quote", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                        inStrMode = !inStrMode;
+                    }
+                    else if (localCode[i] === "+" && !inStrMode) {
+                        Tokens.push(new MECH_LL.Token(["T_IntOP", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                    }
+                    else if (localCode[i].match("[0-9]") && !inStrMode) {
+                        Tokens.push(new MECH_LL.Token(["T_Digit", localCode[i]], curLine, curCol));
+                        OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                    }
+                    else if (localCode[i] === "$" && !inStrMode) {
+                        if (i < localCode.length - 1) {
+                            Tokens.push(new MECH_LL.Token(["T_EOF", localCode[i]], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                            OutputArea.value = OutputArea.value + "Warning ignoring all code after EOF\n";
+                            i = localCode.length - 1;
+                        }
+                        else {
+                            Tokens.push(new MECH_LL.Token(["T_EOF", localCode[i]], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "Found token: " + localCode[i] + "\n";
+                        }
+                    }
+                    else {
+                        ErrList.push("Invalid symbol: " + localCode[i] + " at (" + curLine + ", " + curCol + ")\n");
+                    }
+                    if (keyWord === "print" || keyWord === "while" || keyWord === "if" || keyWord === "int" || keyWord === "boolean" || keyWord === "string" || keyWord === "true" || keyWord === "false") {
+                        for (var j = keyWord.length; j > 0; j--) {
+                            Tokens.pop();
+                        }
+                        OutputArea.value = OutputArea.value + "Replacing " + keyWord.length + " tokens with: ";
+                        if (keyWord === "true" || keyWord === "false") {
+                            Tokens.push(new MECH_LL.Token(["T_Boolval", keyWord], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "T_Boolval\n";
+                        }
+                        else if (keyWord === "int" || keyWord === "boolean" || keyWord === "string") {
+                            Tokens.push(new MECH_LL.Token(["T_Type", keyWord], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "T_Type" + "\n";
+                        }
+                        else {
+                            Tokens.push(new MECH_LL.Token(["T_Kwd" + keyWord, keyWord], curLine, curCol));
+                            OutputArea.value = OutputArea.value + "T_Kwd" + keyWord + "\n";
+                        }
+                        keyWord = "";
+                    }
+                }
+                else {
+                    OutputArea.value = "This should not happen.";
                 }
                 i++;
                 curCol++;
             }
-            if (Tokens[Tokens.length - 1].value[0] != "T_EOP") {
+            if (Tokens[Tokens.length - 1].value[0] != "T_EOF") {
                 OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator " + "'$' repairing.\n\n";
-                locToken = new MECH_LL.Token(["T_EOP", "$"], curLine, curCol);
+                locToken = new MECH_LL.Token(["T_EOF", "$"], curLine, curCol);
                 Tokens.push(locToken);
             }
             i = 0;
@@ -124,9 +152,21 @@ var MECH_LL;
                 }
             }
             else {
-                while (!ParseError) {
-                    MECH_LL.Parser.doParseCode();
+                MECH_LL.Parser.doParseCode();
+                if (!ParseError) {
+                    OutputArea.value = OutputArea.value + "Parse successful.\nBusy building CST.\n";
                     MECH_LL.ParserCST.doParseCode();
+                    OutputArea.value = OutputArea.value + "CST built.\n\n";
+                    OutputArea.value = OutputArea.value + "Generating AST.\n";
+                    MECH_LL.CSTtoAST.convert(CSyntaxTree.rt);
+                    OutputArea.value = OutputArea.value + "Checking content.\n";
+                    if (!ContentError) {
+                        OutputArea.value = OutputArea.value + "Content valid.\n\n";
+                        OutputArea.value = OutputArea.value + "Starting machine code engine.\n";
+                    }
+                }
+                else {
+                    OutputArea.value = OutputArea.value + "\n*Parse Error*\n\n";
                 }
             }
         };
