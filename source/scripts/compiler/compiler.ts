@@ -125,7 +125,10 @@ module MECH_LL {
                     ErrArea.value = ErrList.pop() + ErrArea.value;
                 }
             } else {
-               MECH_LL.Parser.doParseCode();
+                while(!ParseError){
+                    MECH_LL.Parser.doParseCode();
+                    MECH_LL.ParserCST.doParseCode();
+                }
             }
         }
     }

@@ -12,6 +12,8 @@ var MECH_LL;
             if (Tokens[MECH_LL.Parser.count].value[0] === "$") {
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseBlock = function () {
@@ -23,9 +25,13 @@ var MECH_LL;
                     MECH_LL.Parser.count++;
                 }
                 else {
+                    // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseStatementList = function () {
@@ -65,9 +71,13 @@ var MECH_LL;
                     MECH_LL.Parser.count++;
                 }
                 else {
+                    // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseAssignmentStatement = function () {
@@ -77,6 +87,8 @@ var MECH_LL;
                 MECH_LL.Parser.parseExpr();
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseVarDecl = function () {
@@ -90,6 +102,8 @@ var MECH_LL;
                 MECH_LL.Parser.parseBlock();
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseIfStatement = function () {
@@ -97,6 +111,10 @@ var MECH_LL;
                 MECH_LL.Parser.count++;
                 MECH_LL.Parser.parseBooleanExpr();
                 MECH_LL.Parser.parseBlock();
+            }
+            else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseExpr = function () {
@@ -131,9 +149,13 @@ var MECH_LL;
                     MECH_LL.Parser.count++;
                 }
                 else {
+                    // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseBooleanExpr = function () {
@@ -143,8 +165,17 @@ var MECH_LL;
                 if (Tokens[MECH_LL.Parser.count].value[0] === "T_BoolOP") {
                     MECH_LL.Parser.count++;
                     MECH_LL.Parser.parseExpr();
+                    if (Tokens[MECH_LL.Parser.count].value[0] === "T_RParen") {
+                        MECH_LL.ParserCST.count++;
+                    }
+                    else {
+                        // raise exception and halt
+                        MECH_LL.Parser.raiseExceptionAndHalt();
+                    }
                 }
                 else {
+                    // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             }
             else {
@@ -171,6 +202,8 @@ var MECH_LL;
                 MECH_LL.Parser.count++;
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseChar = function () {
@@ -178,6 +211,8 @@ var MECH_LL;
                 MECH_LL.Parser.count++;
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseSpace = function () {
@@ -185,6 +220,8 @@ var MECH_LL;
                 MECH_LL.Parser.count++;
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseDigit = function () {
@@ -192,6 +229,8 @@ var MECH_LL;
                 MECH_LL.Parser.count++;
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         };
         Parser.parseBoolval = function () {
@@ -199,7 +238,13 @@ var MECH_LL;
                 MECH_LL.Parser.count++;
             }
             else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
+        };
+        Parser.raiseExceptionAndHalt = function () {
+            ErrArea.value = ErrArea.value + "Unexpected token: " + Tokens[MECH_LL.Parser.count].value[0] + "\n";
+            ParseError = true;
         };
         Parser.count = 0;
         return Parser;

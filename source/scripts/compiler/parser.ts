@@ -8,12 +8,13 @@ module MECH_LL {
             MECH_LL.Parser.parseProgram();
         }
 
-        public static parseProgram(): void{
+        public static parseProgram(): void {
             MECH_LL.Parser.parseBlock();
             if(Tokens[MECH_LL.Parser.count].value[0] === "$") {
                 // code closed
             } else {
-                // raise exception halt compilation
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
 
         }
@@ -26,10 +27,12 @@ module MECH_LL {
                     // code good
                     MECH_LL.Parser.count++;
                 } else {
-                    // raise exception halt compilation
+                    // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             } else {
-                // raise exception halt compilation
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
 
         }
@@ -68,9 +71,11 @@ module MECH_LL {
                     MECH_LL.Parser.count++;
                 } else {
                     // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -81,6 +86,7 @@ module MECH_LL {
                 MECH_LL.Parser.parseExpr();
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -96,6 +102,7 @@ module MECH_LL {
                 MECH_LL.Parser.parseBlock();
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -104,6 +111,9 @@ module MECH_LL {
                 MECH_LL.Parser.count++;
                 MECH_LL.Parser.parseBooleanExpr();
                 MECH_LL.Parser.parseBlock();
+            } else {
+                // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -139,9 +149,11 @@ module MECH_LL {
                     MECH_LL.Parser.count++;
                 } else {
                     // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -152,8 +164,16 @@ module MECH_LL {
                 if(Tokens[MECH_LL.Parser.count].value[0] === "T_BoolOP") {
                     MECH_LL.Parser.count++;
                     MECH_LL.Parser.parseExpr();
+                    if(Tokens[MECH_LL.Parser.count].value[0] === "T_RParen") {
+                        MECH_LL.ParserCST.count++;
+                        // close BooleanExpr
+                    } else {
+                        // raise exception and halt
+                        MECH_LL.Parser.raiseExceptionAndHalt();
+                    }
                 } else {
                     // raise exception and halt
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             } else {
                 MECH_LL.Parser.parseBoolval();
@@ -182,6 +202,7 @@ module MECH_LL {
                 MECH_LL.Parser.count++;
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -190,6 +211,7 @@ module MECH_LL {
                 MECH_LL.Parser.count++;
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -198,6 +220,7 @@ module MECH_LL {
                 MECH_LL.Parser.count++;
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -206,6 +229,7 @@ module MECH_LL {
                 MECH_LL.Parser.count++;
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
         }
 
@@ -214,7 +238,13 @@ module MECH_LL {
                 MECH_LL.Parser.count++;
             } else {
                 // raise exception and halt
+                MECH_LL.Parser.raiseExceptionAndHalt();
             }
+        }
+
+        public static raiseExceptionAndHalt(): void {
+            ErrArea.value = ErrArea.value + "Unexpected token: " + Tokens[MECH_LL.Parser.count].value[0] + "\n";
+            ParseError = true;
         }
     }
 }

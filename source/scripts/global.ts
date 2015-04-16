@@ -22,6 +22,8 @@ var ASyntaxTree;
 // Symbol table tree
 var SymTable;
 
+var ParseError = false;
+
 
 var onDocumentLoad = function () {
     MECH_LL.Control.init();
