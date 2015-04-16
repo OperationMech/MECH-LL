@@ -26,6 +26,9 @@ var SymTable:MECH_LL.Tree;
 var ParseError = false;
 var ContentError = false;
 
+var ParseCount = 0;
+var ParseCountCST = 0;
+
 var onDocumentLoad = function () {
     MECH_LL.Control.init();
 };

@@ -8,9 +8,6 @@ module MECH_LL {
             TreeArea = (<HTMLTextAreaElement>document.getElementById("taTreeArea"));
             OutputArea = (<HTMLTextAreaElement>document.getElementById("taOutArea"));
 
-            CSyntaxTree = new MECH_LL.Tree;
-            ASyntaxTree = new MECH_LL.Tree;
-            SymTable = new MECH_LL.Tree;
         }
 
         public static do_btnCompileClick(btn): void {
@@ -18,6 +15,16 @@ module MECH_LL {
             ErrArea.value = "";
             TreeArea.value = "";
             OutputArea.value = "";
+
+            // initialize classes
+            CSyntaxTree = new MECH_LL.Tree;
+            ASyntaxTree = new MECH_LL.Tree;
+            SymTable = new MECH_LL.Tree;
+            Tokens = Array();
+            ErrList = Array();
+            ParseError = false;
+            ContentError = false;
+
 
             btn.disabled = true;
             MECH_LL.Compiler.doLex();

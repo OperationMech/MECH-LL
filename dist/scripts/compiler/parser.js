@@ -5,13 +5,14 @@ var MECH_LL;
         function Parser() {
         }
         Parser.doParseCode = function () {
+            ParseCount = 0;
             MECH_LL.Parser.parseProgram();
         };
         Parser.parseProgram = function () {
             MECH_LL.Parser.parseBlock();
             if (ParseError) {
             }
-            if (Tokens[MECH_LL.Parser.count].value[0] === "T_EOF") {
+            if (Tokens[ParseCount].value[0] === "T_EOF") {
             }
             else {
                 // raise exception and halt
@@ -22,12 +23,12 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_LCBrace") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_LCBrace") {
+                    ParseCount++;
                     MECH_LL.Parser.parseStatementList();
-                    if (Tokens[MECH_LL.Parser.count].value[0] === "T_RCBrace") {
+                    if (Tokens[ParseCount].value[0] === "T_RCBrace") {
                         // code good
-                        MECH_LL.Parser.count++;
+                        ParseCount++;
                     }
                     else {
                         // raise exception and halt
@@ -44,7 +45,7 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_RCBrace") {
+                if (Tokens[ParseCount].value[0] === "T_RCBrace") {
                 }
                 else {
                     MECH_LL.Parser.parseStatement();
@@ -56,23 +57,26 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Kwdprint") {
+                if (Tokens[ParseCount].value[0] === "T_Kwdprint") {
                     MECH_LL.Parser.parsePrintStatement();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_Char") {
+                else if (Tokens[ParseCount].value[0] === "T_Char") {
                     MECH_LL.Parser.parseAssignmentStatement();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_Type") {
+                else if (Tokens[ParseCount].value[0] === "T_Type") {
                     MECH_LL.Parser.parseVarDecl();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_Kwdwhile") {
+                else if (Tokens[ParseCount].value[0] === "T_Kwdwhile") {
                     MECH_LL.Parser.parseWhileStatement();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_Kwdif") {
+                else if (Tokens[ParseCount].value[0] === "T_Kwdif") {
                     MECH_LL.Parser.parseIfStatement();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_LCBrace") {
+                else if (Tokens[ParseCount].value[0] === "T_LCBrace") {
                     MECH_LL.Parser.parseBlock();
+                }
+                else {
+                    MECH_LL.Parser.raiseExceptionAndHalt();
                 }
             }
         };
@@ -80,12 +84,12 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                MECH_LL.Parser.count++;
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_LParen") {
-                    MECH_LL.Parser.count++;
+                ParseCount++;
+                if (Tokens[ParseCount].value[0] === "T_LParen") {
+                    ParseCount++;
                     MECH_LL.Parser.parseExpr();
-                    if (Tokens[MECH_LL.Parser.count].value[0] === "T_RParen") {
-                        MECH_LL.Parser.count++;
+                    if (Tokens[ParseCount].value[0] === "T_RParen") {
+                        ParseCount++;
                     }
                     else {
                         // raise exception and halt
@@ -103,8 +107,8 @@ var MECH_LL;
             }
             else {
                 MECH_LL.Parser.parseId();
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_AssignOP") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_AssignOP") {
+                    ParseCount++;
                     MECH_LL.Parser.parseExpr();
                 }
                 else {
@@ -125,8 +129,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Kwdwhile") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Kwdwhile") {
+                    ParseCount++;
                     MECH_LL.Parser.parseBooleanExpr();
                     MECH_LL.Parser.parseBlock();
                 }
@@ -140,8 +144,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Kwdif") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Kwdif") {
+                    ParseCount++;
                     MECH_LL.Parser.parseBooleanExpr();
                     MECH_LL.Parser.parseBlock();
                 }
@@ -155,13 +159,13 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Digit") {
+                if (Tokens[ParseCount].value[0] === "T_Digit") {
                     MECH_LL.Parser.parseIntExpr();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_Quote") {
+                else if (Tokens[ParseCount].value[0] === "T_Quote") {
                     MECH_LL.Parser.parseStringExpr();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_LParen" || Tokens[MECH_LL.Parser.count].value[0] === "T_Boolval") {
+                else if (Tokens[ParseCount].value[0] === "T_LParen" || Tokens[ParseCount].value[0] === "T_Boolval") {
                     MECH_LL.Parser.parseBooleanExpr();
                 }
                 else {
@@ -174,8 +178,8 @@ var MECH_LL;
             }
             else {
                 MECH_LL.Parser.parseDigit();
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_IntOP") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_IntOP") {
+                    ParseCount++;
                     MECH_LL.Parser.parseExpr();
                 }
                 else {
@@ -186,12 +190,12 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Quote") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Quote") {
+                    ParseCount++;
                     MECH_LL.Parser.parseCharList();
-                    if (Tokens[MECH_LL.Parser.count].value[0] === "T_Quote") {
+                    if (Tokens[ParseCount].value[0] === "T_Quote") {
                         // fine
-                        MECH_LL.Parser.count++;
+                        ParseCount++;
                     }
                     else {
                         // raise exception and halt
@@ -208,14 +212,14 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_LParen") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_LParen") {
+                    ParseCount++;
                     MECH_LL.Parser.parseExpr();
-                    if (Tokens[MECH_LL.Parser.count].value[0] === "T_BoolOP") {
-                        MECH_LL.Parser.count++;
+                    if (Tokens[ParseCount].value[0] === "T_BoolOP") {
+                        ParseCount++;
                         MECH_LL.Parser.parseExpr();
-                        if (Tokens[MECH_LL.Parser.count].value[0] === "T_RParen") {
-                            MECH_LL.ParserCST.count++;
+                        if (Tokens[ParseCount].value[0] === "T_RParen") {
+                            ParseCount++;
                         }
                         else {
                             // raise exception and halt
@@ -243,13 +247,13 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (!(Tokens[MECH_LL.Parser.count].value[0] === "T_Char") && !(Tokens[MECH_LL.Parser.count].value[0] === "T_Space")) {
+                if (!(Tokens[ParseCount].value[0] === "T_Char") && !(Tokens[ParseCount].value[0] === "T_Space")) {
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_Char") {
+                else if (Tokens[ParseCount].value[0] === "T_Char") {
                     MECH_LL.Parser.parseChar();
                     MECH_LL.Parser.parseCharList();
                 }
-                else if (Tokens[MECH_LL.Parser.count].value[0] === "T_Space") {
+                else if (Tokens[ParseCount].value[0] === "T_Space") {
                     MECH_LL.Parser.parseSpace();
                     MECH_LL.Parser.parseCharList();
                 }
@@ -259,8 +263,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Type") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Type") {
+                    ParseCount++;
                 }
                 else {
                     // raise exception and halt
@@ -272,8 +276,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Char") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Char") {
+                    ParseCount++;
                 }
                 else {
                     // raise exception and halt
@@ -285,8 +289,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Space") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Space") {
+                    ParseCount++;
                 }
                 else {
                     // raise exception and halt
@@ -298,8 +302,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Digit") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Digit") {
+                    ParseCount++;
                 }
                 else {
                     // raise exception and halt
@@ -311,8 +315,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (Tokens[MECH_LL.Parser.count].value[0] === "T_Boolval") {
-                    MECH_LL.Parser.count++;
+                if (Tokens[ParseCount].value[0] === "T_Boolval") {
+                    ParseCount++;
                 }
                 else {
                     // raise exception and halt
@@ -321,10 +325,9 @@ var MECH_LL;
             }
         };
         Parser.raiseExceptionAndHalt = function () {
-            ErrArea.value = ErrArea.value + "Unexpected token: " + Tokens[MECH_LL.Parser.count].value[0] + "\n";
+            ErrArea.value = ErrArea.value + "Unexpected token: " + Tokens[ParseCount].value[0] + "\n";
             ParseError = true;
         };
-        Parser.count = 0;
         return Parser;
     })();
     MECH_LL.Parser = Parser;
