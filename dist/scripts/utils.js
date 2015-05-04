@@ -6,25 +6,32 @@ var MECH_LL;
         }
         Utils.printTree = function () {
             if (isCST && !isSymbTbl) {
+                isCST = false;
                 return MECH_LL.Utils.printCST();
             }
             else if (!isSymbTbl) {
+                isSymbTbl = true;
                 return MECH_LL.Utils.printAST();
             }
             else {
+                isSymbTbl = false;
+                isCST = true;
                 return MECH_LL.Utils.printSymbTbl();
             }
         };
         Utils.printSymbTbl = function () {
-            var outStr = "";
+            var outStr;
+            outStr = SymTable.printTreeNode(SymTable.rt);
             return outStr;
         };
         Utils.printCST = function () {
-            var outStr = "";
+            var outStr;
+            outStr = CSyntaxTree.printTreeNode(CSyntaxTree.rt);
             return outStr;
         };
         Utils.printAST = function () {
-            var outStr = "";
+            var outStr;
+            outStr = ASyntaxTree.printTreeNode(ASyntaxTree.rt);
             return outStr;
         };
         return Utils;

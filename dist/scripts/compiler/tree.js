@@ -51,6 +51,30 @@ var MECH_LL;
                 this.cur = this.cur.parent;
             }
         };
+        Tree.prototype.printTreeNode = function (nodeIn) {
+            var recurse = "";
+            if (nodeIn != null) {
+                recurse = nodeIn.value[0] + "\n ";
+                if (nodeIn.isLeaf === true) {
+                    recurse = " " + recurse;
+                }
+                else if (nodeIn.children === null) {
+                    recurse = recurse + " " + "epsilon" + "\n ";
+                }
+                else if (nodeIn.children.length === 1) {
+                    recurse = recurse + this.printTreeNode(nodeIn.children[0]);
+                }
+                else {
+                    for (var i = 0; i < nodeIn.children.length; i++) {
+                        recurse = recurse + " " + this.printTreeNode(nodeIn.children[i]);
+                    }
+                }
+            }
+            else {
+                recurse = " " + recurse;
+            }
+            return recurse;
+        };
         return Tree;
     })();
     MECH_LL.Tree = Tree;

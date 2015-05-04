@@ -30,7 +30,8 @@ h1 {
     background-color: whitesmoke;
     height: 200px;
     width: 250px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 .taCodeArea {
@@ -41,7 +42,7 @@ h1 {
     background-color: whitesmoke;
     height: 200px;
     width: 340px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .taOutArea {
@@ -52,7 +53,7 @@ h1 {
     background-color: whitesmoke;
     height: 100px;
     width: 250px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .taErrArea {
@@ -63,5 +64,5 @@ h1 {
     background-color: whitesmoke;
     height: 100px;
     width: 340px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }

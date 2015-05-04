@@ -134,7 +134,12 @@ var MECH_LL;
                 i++;
                 curCol++;
             }
-            if (Tokens[Tokens.length - 1].value[0] != "T_EOF") {
+            if (Tokens.length === 0) {
+                // empty code error case
+                OutputArea.value = "No code halting compilation.";
+                ErrList.push("No code halting.");
+            }
+            else if (Tokens[Tokens.length - 1].value[0] != "T_EOF") {
                 OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator " + "'$' repairing.\n\n";
                 locToken = new MECH_LL.Token(["T_EOF", "$"], curLine, curCol);
                 Tokens.push(locToken);
@@ -145,13 +150,13 @@ var MECH_LL;
                 strTokens += "[" + Tokens[i].value[0] + "," + Tokens[i].value[1] + "] ";
                 i++;
             }
-            OutputArea.value = OutputArea.value + "Lex found the following tokens: " + strTokens + "\n";
             if (ErrList.length > 0) {
                 while (ErrList.length > 0) {
                     ErrArea.value = ErrList.pop() + ErrArea.value;
                 }
             }
             else {
+                OutputArea.value = OutputArea.value + "Lex found the following tokens: " + strTokens + "\n";
                 MECH_LL.Parser.doParseCode();
                 if (!ParseError) {
                     OutputArea.value = OutputArea.value + "Parse successful.\nBusy building CST.\n";
@@ -159,6 +164,7 @@ var MECH_LL;
                     OutputArea.value = OutputArea.value + "CST built.\n\n";
                     OutputArea.value = OutputArea.value + "Generating AST.\n";
                     MECH_LL.CSTtoAST.convert(CSyntaxTree.rt);
+                    OutputArea.value = OutputArea.value + "AST Built.\n\n";
                     OutputArea.value = OutputArea.value + "Checking content.\n";
                     if (!ContentError) {
                         OutputArea.value = OutputArea.value + "Content valid.\n\n";

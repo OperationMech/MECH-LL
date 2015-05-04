@@ -5,29 +5,33 @@ module MECH_LL {
 
         public static printTree(): string {
            if(isCST && !isSymbTbl ) {
+               isCST = false;
                return MECH_LL.Utils.printCST();
            } else if (!isSymbTbl) {
+               isSymbTbl = true ;
                return MECH_LL.Utils.printAST();
            } else {
+               isSymbTbl = false;
+               isCST = true;
                return MECH_LL.Utils.printSymbTbl();
            }
         }
 
         public static printSymbTbl(): string {
-            var outStr: string = "";
-
+            var outStr: string;
+            outStr = SymTable.printTreeNode(SymTable.rt);
             return outStr;
         }
 
         public static printCST(): string {
-            var outStr: string = "";
-
+            var outStr: string;
+            outStr = CSyntaxTree.printTreeNode(CSyntaxTree.rt);
             return outStr;
         }
 
         public static printAST(): string {
-            var outStr: string = "";
-
+            var outStr: string;
+            outStr = ASyntaxTree.printTreeNode(ASyntaxTree.rt);
             return outStr;
         }
     }
