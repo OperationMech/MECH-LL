@@ -18,20 +18,20 @@ module MECH_LL {
         }
 
         public static printSymbTbl(): string {
-            var outStr: string;
-            outStr = SymTable.printTreeNode(SymTable.rt);
+            var outStr: string = "SymbolTable:\n";
+            outStr = outStr + SymTable.printTreeNode(SymTable.rt);
             return outStr;
         }
 
         public static printCST(): string {
-            var outStr: string;
-            outStr = CSyntaxTree.printTreeNode(CSyntaxTree.rt);
+            var outStr: string = "CST:\n";
+            outStr = outStr + CSyntaxTree.printTreeNode(CSyntaxTree.rt);
             return outStr;
         }
 
         public static printAST(): string {
-            var outStr: string;
-            outStr = ASyntaxTree.printTreeNode(ASyntaxTree.rt);
+            var outStr: string = "AST:\n";
+            outStr = outStr + ASyntaxTree.printTreeNode(ASyntaxTree.rt);
             return outStr;
         }
     }

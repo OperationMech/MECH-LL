@@ -51,23 +51,25 @@ module MECH_LL {
             }
         }
 
-        public printTreeNode(nodeIn:NODE): string {
+        public printTreeNode(nodeIn:NODE, depth:number = 0): string {
             var recurse: string = "";
+            for(var i = 0; i < depth; i++) {
+                recurse = recurse + " ";
+            }
             if(nodeIn != null){
-                recurse = nodeIn.value[0] + "\n ";
+                recurse = recurse + nodeIn.value[0] + "\n";
                 if(nodeIn.isLeaf === true){
-                    recurse = " " + recurse;
                 } else if(nodeIn.children === null) {
-                    recurse = recurse + " " + "epsilon" + "\n ";
-                } else if(nodeIn.children.length === 1){
-                    recurse = recurse + this.printTreeNode(nodeIn.children[0]);
+                    for(var i = 0; i < depth+1; i++) {
+                        recurse = recurse + " ";
+                    }
+                    recurse = recurse + "epsilon" + "\n";
                 } else {
-                    for(var i = 0; i < nodeIn.children.length; i++){
-                        recurse = recurse + " " + this.printTreeNode(nodeIn.children[i]);
+                    for(var j = 0; j < nodeIn.children.length; j++){
+                        recurse = recurse + this.printTreeNode(nodeIn.children[j], depth+1);
                     }
                 }
             } else {
-                recurse = " " + recurse;
             }
             return recurse;
         }

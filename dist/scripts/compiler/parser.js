@@ -165,7 +165,8 @@ var MECH_LL;
                 else if (Tokens[ParseCount].value[0] === "T_Quote") {
                     MECH_LL.Parser.parseStringExpr();
                 }
-                else if (Tokens[ParseCount].value[0] === "T_LParen" || Tokens[ParseCount].value[0] === "T_Boolval") {
+                else if (Tokens[ParseCount].value[0] === "T_LParen" ||
+                    Tokens[ParseCount].value[0] === "T_Boolval") {
                     MECH_LL.Parser.parseBooleanExpr();
                 }
                 else {
@@ -247,7 +248,8 @@ var MECH_LL;
             if (ParseError) {
             }
             else {
-                if (!(Tokens[ParseCount].value[0] === "T_Char") && !(Tokens[ParseCount].value[0] === "T_Space")) {
+                if (!(Tokens[ParseCount].value[0] === "T_Char") &&
+                    !(Tokens[ParseCount].value[0] === "T_Space")) {
                 }
                 else if (Tokens[ParseCount].value[0] === "T_Char") {
                     MECH_LL.Parser.parseChar();

@@ -20,18 +20,18 @@ var MECH_LL;
             }
         };
         Utils.printSymbTbl = function () {
-            var outStr;
-            outStr = SymTable.printTreeNode(SymTable.rt);
+            var outStr = "SymbolTable:\n";
+            outStr = outStr + SymTable.printTreeNode(SymTable.rt);
             return outStr;
         };
         Utils.printCST = function () {
-            var outStr;
-            outStr = CSyntaxTree.printTreeNode(CSyntaxTree.rt);
+            var outStr = "CST:\n";
+            outStr = outStr + CSyntaxTree.printTreeNode(CSyntaxTree.rt);
             return outStr;
         };
         Utils.printAST = function () {
-            var outStr;
-            outStr = ASyntaxTree.printTreeNode(ASyntaxTree.rt);
+            var outStr = "AST:\n";
+            outStr = outStr + ASyntaxTree.printTreeNode(ASyntaxTree.rt);
             return outStr;
         };
         return Utils;

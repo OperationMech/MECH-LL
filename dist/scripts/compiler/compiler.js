@@ -108,7 +108,8 @@ var MECH_LL;
                     else {
                         ErrList.push("Invalid symbol: " + localCode[i] + " at (" + curLine + ", " + curCol + ")\n");
                     }
-                    if (keyWord === "print" || keyWord === "while" || keyWord === "if" || keyWord === "int" || keyWord === "boolean" || keyWord === "string" || keyWord === "true" || keyWord === "false") {
+                    if (keyWord === "print" || keyWord === "while" || keyWord === "if" || keyWord === "int" ||
+                        keyWord === "boolean" || keyWord === "string" || keyWord === "true" || keyWord === "false") {
                         for (var j = keyWord.length; j > 0; j--) {
                             Tokens.pop();
                         }
@@ -140,14 +141,17 @@ var MECH_LL;
                 ErrList.push("No code halting.");
             }
             else if (Tokens[Tokens.length - 1].value[0] != "T_EOF") {
-                OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator " + "'$' repairing.\n\n";
+                OutputArea.value = OutputArea.value + "\nWarning EOF found without program terminator "
+                    + "'$' repairing.\n\n";
                 locToken = new MECH_LL.Token(["T_EOF", "$"], curLine, curCol);
                 Tokens.push(locToken);
             }
             i = 0;
             var strTokens = "";
             while (i < Tokens.length) {
-                strTokens += "[" + Tokens[i].value[0] + "," + Tokens[i].value[1] + "] ";
+                strTokens += "[" + Tokens[i].value[0] +
+                    "," + Tokens[i].value[1] +
+                    "] ";
                 i++;
             }
             if (ErrList.length > 0) {

@@ -148,7 +148,8 @@ var MECH_LL;
             else if (Tokens[ParseCountCST].value[0] === "T_Quote") {
                 MECH_LL.ParserCST.parseStringExpr();
             }
-            else if (Tokens[ParseCountCST].value[0] === "T_LParen" || Tokens[ParseCountCST].value[0] === "T_Boolval") {
+            else if (Tokens[ParseCountCST].value[0] === "T_LParen" ||
+                Tokens[ParseCountCST].value[0] === "T_Boolval") {
                 MECH_LL.ParserCST.parseBooleanExpr();
             }
             else {
@@ -225,7 +226,8 @@ var MECH_LL;
         };
         ParserCST.parseCharList = function () {
             CSyntaxTree.addNode(new MECH_LL.NODE(null, null, false, ["CharList"]));
-            if (!(Tokens[ParseCountCST].value[0] === "T_Char") && !(Tokens[ParseCountCST].value[0] === "T_Space")) {
+            if (!(Tokens[ParseCountCST].value[0] === "T_Char") &&
+                !(Tokens[ParseCountCST].value[0] === "T_Space")) {
             }
             else if (Tokens[ParseCountCST].value[0] === "T_Char") {
                 MECH_LL.ParserCST.parseChar();
