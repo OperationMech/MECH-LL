@@ -18,7 +18,6 @@ var MECH_LL;
                     MECH_LL.Analyzer.analyze(ASTN.children[i], depth + 1);
                 }
             }
-            SymTable.returnCurrentPtrToParent();
         };
         return Analyzer;
     })();
