@@ -15,10 +15,10 @@ var MECH_LL;
             }
             if (ASTN.children != null) {
                 for (var i = 0; i < ASTN.children.length; i++) {
-                    MECH_LL.Analyzer.analyze(ASTN.children[i], depth - 1 + i);
+                    MECH_LL.Analyzer.analyze(ASTN.children[i], depth + 1);
                 }
-                SymTable.returnCurrentPtrToParent();
             }
+            SymTable.returnCurrentPtrToParent();
         };
         return Analyzer;
     })();
