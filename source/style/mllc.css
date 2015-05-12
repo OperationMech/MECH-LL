@@ -27,7 +27,8 @@ h1 {
     border-left: 1px solid dimgrey;
     border-right: 1px solid slategrey;
     border-bottom: 1px solid slategray;
-    background-color: whitesmoke;
+    background-color: black;
+    color: limegreen;
     height: 200px;
     width: 250px;
     overflow-y: auto;
@@ -50,7 +51,8 @@ h1 {
     border-left: 1px solid dimgrey;
     border-right: 1px solid slategrey;
     border-bottom: 1px solid slategray;
-    background-color: whitesmoke;
+    background-color: black;
+    color: limegreen;
     height: 100px;
     width: 250px;
     overflow-y: auto;
@@ -61,7 +63,8 @@ h1 {
     border-left: 1px solid dimgrey;
     border-right: 1px solid slategrey;
     border-bottom: 1px solid slategray;
-    background-color: whitesmoke;
+    background-color: black;
+    color: limegreen;
     height: 100px;
     width: 340px;
     overflow-y: auto;
