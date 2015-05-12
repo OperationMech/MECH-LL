@@ -148,11 +148,13 @@ module MECH_LL {
                     OutputArea.value = OutputArea.value + "AST Built.\n\n";
                     OutputArea.value = OutputArea.value + "Checking content.\n";
 
+                    MECH_LL.Analyzer.analyze(ASyntaxTree.rt);
                     if(!ContentError) {
-                        MECH_LL.Analyzer.analyze(ASyntaxTree.rt);
                         OutputArea.value = OutputArea.value + "Content valid.\n\n";
                         OutputArea.value = OutputArea.value + "Starting machine code engine.\n";
 
+                    } else {
+                        OutputArea.value = OutputArea.value + "\n*Content Error*\n\n";
                     }
 
                 } else {

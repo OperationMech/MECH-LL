@@ -18,18 +18,19 @@ module MECH_LL {
                             || CSTN.children[i].value[0] === "AssignStmt") {
                             ASyntaxTree.addNode(new NODE(null, null, false, CSTN.children[i].value));
                         }
-                        if (CSTN.children.length > 1) {
-                            MECH_LL.CSTtoAST.convert(CSTN.children[i]);
-                        } else {
+                        if (CSTN.children.length < 3) {
                             MECH_LL.CSTtoAST.convert(CSTN.children[i]);
                             ASyntaxTree.returnCurrentPtrToParent();
+                        } else {
+                            MECH_LL.CSTtoAST.convert(CSTN.children[i]);
                         }
                     } else if (CSTN.children[i].value[0] === "T_Type"
                         || CSTN.children[i].value[0] === "T_Char"
                         || CSTN.children[i].value[0] === "T_Digit"
                         || CSTN.children[i].value[0] === "T_Boolval"
                         || CSTN.children[i].value[0] === "T_Space"
-                        || CSTN.children[i].value[0] === "T_BoolOP") {
+                        || CSTN.children[i].value[0] === "T_BoolOP"
+                        || CSTN.children[i].value[0] === "T_IntOP") {
                         ASyntaxTree.addNode(new NODE(null, null, true, CSTN.children[i].value));
                     }
                     i++;
