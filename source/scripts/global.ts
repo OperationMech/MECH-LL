@@ -29,6 +29,15 @@ var ContentError = false;
 var ParseCount = 0;
 var ParseCountCST = 0;
 
+var ExecutableImageSize=0;
+var HeapSize = 0;
+
+var BackpatchTable = [[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,]];
+var BackpatchCount = 0;
+var jumpTable;
+
+var exeImage = [];
+
 var onDocumentLoad = function () {
     MECH_LL.Control.init();
 };
