@@ -133,11 +133,11 @@ module MECH_LL {
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "01";
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
-                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "AC";
-                        ExecutableImageSize = ExecutableImageSize + 1;
+                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "A0";
+                        MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[0], ST, depth);
                         lowerBound = ExecutableImageSize % 16;
-                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount + depth).toString(16);
-                        ExecutableImageSize = ExecutableImageSize + 2;
+                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "FF";
+                        ExecutableImageSize = ExecutableImageSize + 1;
 
                     } else if (ASTN.children[0].value[0] === "BoolExpr") {
                         var lowerBound = ExecutableImageSize % 16;
@@ -168,7 +168,7 @@ module MECH_LL {
                         ExecutableImageSize = ExecutableImageSize + 2;
 
                     } else {
-                        if (ST.value[ASTN.children[0].value[1].charCodeAt(0) - 96] === "int") {
+                        if (ASTN.children[0].value[1].charCodeAt(0) - 96 > 0 &&  ASTN.children[0].value[1].charCodeAt(0) - 96 < 27) {
                             var lowerBound = ExecutableImageSize % 16;
                             exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "A2";
                             ExecutableImageSize = ExecutableImageSize + 1;

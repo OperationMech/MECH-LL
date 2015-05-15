@@ -89,25 +89,49 @@ module MECH_LL {
                         if (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] != undefined) {
                             typeOut = "int";
                         } else {
-                            var temp:NODE = SymTable.cur;
-                            while (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] === undefined && SymTable.cur != SymTable.rt) {
-                                temp = SymTable.cur;
-                                if (SymTable.cur == SymTable.rt) {
-                                    SymTable.cur = temp;
-                                    MECH_LL.Analyzer.error(true, depth);
-                                } else if (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] != undefined) {
-                                    SymTable.cur = temp;
+                            var temp  = SymTable.cur;
+                            var found = false;
+                            while(!found || SymTable.cur.parent != null){
+                                SymTable.returnCurrentPtrToParent();
+                                temp2 = SymTable.cur.value[ASTN.children[0].value[1].charCodeAt(0) - 96];
+                                if(temp2 != undefined ){
+
+                                    found = true
                                 }
+                            }
+                            if(found){
+                                typeOut = SymTable.cur.value[ASTN.children[0].value[1].charCodeAt(0) - 96];
+                                SymTable.cur = temp;
+                            } else {
+                                SymTable.cur = temp;
+                                MECH_LL.Analyzer.error(true, depth);
                             }
                         }
                     }
                 }
                 if (ASTN.value[0] === "AssignStmt") {
                     var temp2 = SymTable.cur.value[ASTN.children[0].value[1].charCodeAt(0) - 96];
-                    if (temp2 != null) {
+                    if (temp2 === undefined && SymTable.cur === SymTable.rt) {
+                        MECH_LL.Analyzer.error(false, depth);
                         MECH_LL.Analyzer.analyze(ASTN.children[1], depth, temp2);
                     } else {
-                        MECH_LL.Analyzer.error(false, depth);
+                        var temp  = SymTable.cur;
+                        var found = false;
+                        while(!found || SymTable.cur.parent != null){
+                            SymTable.returnCurrentPtrToParent();
+                            temp2 = SymTable.cur.value[ASTN.children[0].value[1].charCodeAt(0) - 96];
+                            if(temp2 != undefined ){
+
+                                found = true
+                            }
+                        }
+                        if(found){
+                            typeOut = SymTable.cur.value[ASTN.children[0].value[1].charCodeAt(0) - 96];
+                            SymTable.cur = temp;
+                        } else {
+                            SymTable.cur = temp;
+                            MECH_LL.Analyzer.error(true, depth);
+                        }
                     }
                 }
                 if (ASTN.value[0] === "Block") {
