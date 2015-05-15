@@ -41,7 +41,7 @@ module MECH_LL {
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (++BackpatchCount + depth).toString(16);
-                        BackpatchTable[ASTN.children[1].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount + depth).toString(16);
+                        BackpatchTable[ASTN.children[1].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount).toString(16);
                         ExecutableImageSize = ExecutableImageSize + 2;
                     }
                 } else if (ASTN.value[0] === "AssignStmt") {
@@ -56,8 +56,8 @@ module MECH_LL {
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "8D";
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
-                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount + depth).toString(16);
-                        BackpatchTable[ASTN.children[0].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount + depth).toString(16);
+                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount).toString(16);
+                        BackpatchTable[ASTN.children[0].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount).toString(16);
                         ExecutableImageSize = ExecutableImageSize + 2;
                     }
                 } else if (ASTN.value[0] === "IntExpr") {
@@ -169,7 +169,8 @@ module MECH_LL {
                         ExecutableImageSize = ExecutableImageSize + 1;
 
                     } else {
-                        if (ASTN.children[0].value[1].charCodeAt(0) - 96 > 0 &&  ASTN.children[0].value[1].charCodeAt(0) - 96 < 27) {
+                        var localVal = ST.value[ASTN.children[0].value[1].charCodeAt(0) - 96];
+                        if (localVal === "int" || localVal === "boolean") {
                             var lowerBound = ExecutableImageSize % 16;
                             exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "A2";
                             ExecutableImageSize = ExecutableImageSize + 1;
@@ -180,7 +181,23 @@ module MECH_LL {
                             exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "AC";
                             ExecutableImageSize = ExecutableImageSize + 1;
                             lowerBound = ExecutableImageSize % 16;
-                            exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount + depth).toString(16);
+                            exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount).toString(16);
+                            ExecutableImageSize = ExecutableImageSize + 2;
+                            lowerBound = ExecutableImageSize % 16;
+                            exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "FF";
+                            ExecutableImageSize = ExecutableImageSize + 1;
+                        } else {
+                            var lowerBound = ExecutableImageSize % 16;
+                            exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "A2";
+                            ExecutableImageSize = ExecutableImageSize + 1;
+                            lowerBound = ExecutableImageSize % 16;
+                            exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "02";
+                            ExecutableImageSize = ExecutableImageSize + 1;
+                            lowerBound = ExecutableImageSize % 16;
+                            exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "AC";
+                            ExecutableImageSize = ExecutableImageSize + 1;
+                            lowerBound = ExecutableImageSize % 16;
+                            exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount).toString(16);
                             ExecutableImageSize = ExecutableImageSize + 2;
                             lowerBound = ExecutableImageSize % 16;
                             exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "FF";
