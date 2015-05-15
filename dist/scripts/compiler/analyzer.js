@@ -97,12 +97,12 @@ var MECH_LL;
                 }
                 if (ASTN.value[0] === "PrintStmt") {
                     var temp3 = "";
-                    if (ASTN.children[0].value[0] === "BooleanExpr" || ASTN.children[0].value[0] === "IntExpr") {
+                    if (ASTN.children[0].value[0] === "BooleanExpr" || ASTN.children[0].value[0] === "IntExpr" || ASTN.children[0].value[0] === "StringExpr") {
                         MECH_LL.Analyzer.analyze(ASTN.children[0], depth, temp3);
                     }
                     else {
-                        if (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] != undefined) {
-                            typeOut = "int";
+                        if (SymTable.cur.value[ASTN.children[0].value[1].charCodeAt(0) - 96] != undefined) {
+                            typeOut = SymTable.cur.value[ASTN.children[0].value[1].charCodeAt(0) - 96];
                         }
                         else {
                             var temp = SymTable.cur;
