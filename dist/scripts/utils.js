@@ -21,7 +21,7 @@ var MECH_LL;
         };
         Utils.printSymbTbl = function () {
             var outStr = "SymbolTable:\n";
-            outStr = outStr + SymTable.printTreeNode(SymTable.rt);
+            outStr = outStr + SymTable.printTreeNodeSymb(SymTable.rt);
             return outStr;
         };
         Utils.printCST = function () {

@@ -7,6 +7,7 @@ var MECH_LL;
         Analyzer.analyze = function (ASTN, depth, type, typeOut) {
             if (depth === void 0) { depth = 0; }
             if (type === void 0) { type = ""; }
+            if (typeOut === void 0) { typeOut = null; }
             if (ContentError) {
             }
             else {
@@ -132,7 +133,9 @@ var MECH_LL;
                 }
                 if (ASTN.children != null) {
                     for (var i = 0; i < ASTN.children.length; i++) {
-                        MECH_LL.Analyzer.analyze(ASTN.children[i], depth + 1);
+                        var typeD;
+                        MECH_LL.Analyzer.analyze(ASTN.children[i], depth + 1, typeD);
+                        typeOut = typeD;
                     }
                 }
             }

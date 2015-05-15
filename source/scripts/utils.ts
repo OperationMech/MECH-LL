@@ -19,7 +19,7 @@ module MECH_LL {
 
         public static printSymbTbl(): string {
             var outStr: string = "SymbolTable:\n";
-            outStr = outStr + SymTable.printTreeNode(SymTable.rt);
+            outStr = outStr + SymTable.printTreeNodeSymb(SymTable.rt);
             return outStr;
         }
 

@@ -1,7 +1,7 @@
 // semantic analyzer class
 module MECH_LL {
     export class Analyzer {
-        public static analyze(ASTN:NODE, depth:number = 0, type:string = "", typeOut?):void {
+        public static analyze(ASTN:NODE, depth:number = 0, type:string = "", typeOut = null):void {
             if (ContentError) {
             } else {
                 var depthstr = "" + depth.toString(16);
@@ -114,8 +114,10 @@ module MECH_LL {
                     }
                 }
                 if (ASTN.children != null) {
-                    for (var i = 0; i < ASTN.children.length; i++) {
-                        MECH_LL.Analyzer.analyze(ASTN.children[i], depth + 1);
+                    for (var i = 0; i < ASTN.children.length; i++){
+                        var typeD;
+                        MECH_LL.Analyzer.analyze(ASTN.children[i], depth + 1, typeD);
+                        typeOut=typeD;
                     }
                 }
             }

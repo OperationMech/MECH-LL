@@ -171,14 +171,19 @@ var MECH_LL;
                         OutputArea.value = OutputArea.value + "Content valid.\n\n";
                         OutputArea.value = OutputArea.value + "Starting machine code engine.\n";
                         MECH_LL.CodeEngine.doCodeGen();
-                        var codeOut = "";
-                        for (var i = 0; i < 0xFE; i++) {
-                            codeOut = codeOut + exeImage[Math.floor(i / 16)][i % 16] + " ";
+                        if (!CodeError) {
+                            var codeOut = "";
+                            for (var i = 0; i < 0xFF; i++) {
+                                codeOut = codeOut + exeImage[Math.floor(i / 16)][i % 16] + " ";
+                            }
+                            codeOut = codeOut + exeImage[0x0F][0x0F];
+                            OutputArea.value = OutputArea.value + "Code Generated.\n\n";
+                            OutputArea.value = OutputArea.value + codeOut;
+                            alert("Code Generated Successfully\n" + codeOut);
                         }
-                        codeOut = codeOut + exeImage[0x0F][0x0F];
-                        OutputArea.value = OutputArea.value + "Code Generated.\n\n";
-                        OutputArea.value = OutputArea.value + codeOut;
-                        alert("Code Generated Successfully\n" + codeOut);
+                        else {
+                            OutputArea.value = OutputArea.value + "\n*Code Generation Error*\n\n";
+                        }
                     }
                     else {
                         OutputArea.value = OutputArea.value + "\n*Content Error*\n\n";

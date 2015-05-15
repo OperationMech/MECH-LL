@@ -77,6 +77,35 @@ var MECH_LL;
             }
             return recurse;
         };
+        Tree.prototype.printTreeNodeSymb = function (nodeIn, depth) {
+            if (depth === void 0) { depth = 0; }
+            var recurse = "";
+            for (var i = 0; i < depth; i++) {
+                recurse = recurse + " ";
+            }
+            if (nodeIn != null) {
+                recurse = recurse + nodeIn.value[0] + "\n";
+                if (nodeIn.isLeaf === true) {
+                }
+                else if (nodeIn.children === null) {
+                    for (var i = 1; i < nodeIn.value.length; i++) {
+                        if (nodeIn.value[i] === undefined) {
+                        }
+                        else {
+                            recurse = recurse + "  " + String.fromCharCode(96 + i) + ": " + nodeIn.value[i] + "\n";
+                        }
+                    }
+                }
+                else {
+                    for (var j = 0; j < nodeIn.children.length; j++) {
+                        recurse = recurse + this.printTreeNodeSymb(nodeIn.children[j], depth + 1);
+                    }
+                }
+            }
+            else {
+            }
+            return recurse;
+        };
         return Tree;
     })();
     MECH_LL.Tree = Tree;
