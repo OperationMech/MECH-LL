@@ -8,9 +8,6 @@ module MECH_LL {
                 if (depth < 16) {
                     depthstr = "0" + depth.toString(16);
                 }
-                if (ASTN.value[0] === "Block") {
-                    SymTable.addNode(new NODE(null, null, false, ["Scope" + depthstr]));
-                }
                 if (ASTN.value[0] === "VarDecl") {
                     SymTable.cur.value[ASTN.children[1].value[1].charCodeAt(0) - 96] = ASTN.children[0].value[1];
                 }
@@ -24,7 +21,7 @@ module MECH_LL {
                                 typeOut = "int";
                             }
                             var temp:NODE = SymTable.cur;
-                            while (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] === null && SymTable.cur != SymTable.rt) {
+                            while (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] === undefined && SymTable.cur != SymTable.rt) {
                                 temp = SymTable.cur;
                                 if (SymTable.cur == SymTable.rt) {
                                     SymTable.cur = temp;
@@ -43,7 +40,7 @@ module MECH_LL {
                                 typeOut = "int";
                             }
                             var temp:NODE = SymTable.cur;
-                            while (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] === null && SymTable.cur != SymTable.rt) {
+                            while (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] === undefined && SymTable.cur != SymTable.rt) {
                                 temp = SymTable.cur;
                                 if (SymTable.cur == SymTable.rt) {
                                     SymTable.cur = temp;
@@ -89,16 +86,16 @@ module MECH_LL {
                     if(ASTN.children[0].value[0] === "BooleanExpr" || ASTN.children[0].value[0] === "IntExpr"){
                         MECH_LL.Analyzer.analyze(ASTN.children[0], depth, temp3);
                     } else {
-                        if (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] != null) {
+                        if (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] != undefined) {
                             typeOut = "int";
                         } else {
                             var temp:NODE = SymTable.cur;
-                            while (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] === null && SymTable.cur != SymTable.rt) {
+                            while (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] === undefined && SymTable.cur != SymTable.rt) {
                                 temp = SymTable.cur;
                                 if (SymTable.cur == SymTable.rt) {
                                     SymTable.cur = temp;
                                     MECH_LL.Analyzer.error(true, depth);
-                                } else if (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] != null) {
+                                } else if (SymTable.cur.value[ASTN.children[2].value[1].charCodeAt(0) - 96] != undefined) {
                                     SymTable.cur = temp;
                                 }
                             }
@@ -113,11 +110,18 @@ module MECH_LL {
                         MECH_LL.Analyzer.error(false, depth);
                     }
                 }
-                if (ASTN.children != null) {
+                if (ASTN.value[0] === "Block") {
+                    SymTable.addNode(new NODE(null, null, false, ["Scope" + depthstr]));
                     for (var i = 0; i < ASTN.children.length; i++){
                         var typeD;
                         MECH_LL.Analyzer.analyze(ASTN.children[i], depth + 1, typeD);
                         typeOut=typeD;
+                    }
+                } else {
+                    if(ASTN.children != null){
+                        for (var i = 0; i < ASTN.children.length; i++) {
+                            MECH_LL.Analyzer.analyze(ASTN.children[i], depth);
+                        }
                     }
                 }
             }
