@@ -58,7 +58,7 @@ module MECH_LL {
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "8D";
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
-                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount).toString(16);
+                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (ASTN.children[0].value[1].charCodeAt(0) - 97).toString(16);
                         ExecutableImageSize = ExecutableImageSize + 2;
                     }
                 } else if (ASTN.value[0] === "IntExpr") {
