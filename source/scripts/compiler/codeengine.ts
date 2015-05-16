@@ -40,7 +40,7 @@ module MECH_LL {
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "8D";
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
-                        BackpatchCount = BackpatchCount + depth+ 1;
+                        BackpatchCount = BackpatchCount + 1;
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount).toString(16);
                         BackpatchTable[ASTN.children[1].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount).toString(16);
                         ExecutableImageSize = ExecutableImageSize + 2;
@@ -141,10 +141,10 @@ module MECH_LL {
                     ExecutableImageSize = ExecutableImageSize + 1;
                     lowerBound = ExecutableImageSize % 16;
                     exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "J" + (JumpLength);
-                    JumpTable.push(["J" + JumpLength ,]);
+                    JumpTable.push(["J" + JumpLength ,ExecutableImageSize.toString(16)]);
                     ExecutableImageSize = ExecutableImageSize + 1;
                     MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[1], ST, depth);
-                    JumpTable[JumpLength][1] = ExecutableImageSize.toString(16);
+                    JumpTable[JumpLength][1] = (ExecutableImageSize - parseInt(JumpTable[JumpLength][1], 16)).toString(16);
 
                 } else if (ASTN.value[0] === "WhileStmt") {
                     MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[0], ST, depth);
