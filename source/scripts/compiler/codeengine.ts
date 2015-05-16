@@ -40,8 +40,10 @@ module MECH_LL {
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "8D";
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
-                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount + depth).toString(16);
-                        BackpatchTable[ASTN.children[1].value[1].charCodeAt(0) - 97][0] = "T" + (++BackpatchCount).toString(16);
+                        BackpatchCount = BackpatchCount + depth;
+                        BackpatchCount++;
+                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount).toString(16);
+                        BackpatchTable[ASTN.children[1].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount).toString(16);
                         ExecutableImageSize = ExecutableImageSize + 2;
                     }
                 } else if (ASTN.value[0] === "AssignStmt") {
