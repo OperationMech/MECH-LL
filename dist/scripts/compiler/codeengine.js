@@ -152,7 +152,7 @@ var MECH_LL;
                     JumpTable.push(["J" + JumpLength, ExecutableImageSize.toString(16)]);
                     ExecutableImageSize = ExecutableImageSize + 1;
                     MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[1], ST, depth);
-                    JumpTable[JumpLength][1] = (ExecutableImageSize - parseInt(JumpTable[JumpLength][1], 16)).toString(16);
+                    JumpTable[JumpLength][1] = (ExecutableImageSize - 1 + parseInt(JumpTable[JumpLength][1], 16)).toString(16);
                 }
                 else if (ASTN.value[0] === "WhileStmt") {
                     MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[0], ST, depth);
