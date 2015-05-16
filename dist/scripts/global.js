@@ -26,7 +26,8 @@ var ExecutableLength = 0xFF;
 var HeapSize = 0;
 var BackpatchTable = [[,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,], [,]];
 var BackpatchCount = 0;
-var jumpTable;
+var JumpLength = 0;
+var JumpTable = [];
 var exeImage = [];
 var onDocumentLoad = function () {
     MECH_LL.Control.init();

@@ -41,8 +41,8 @@ var MECH_LL;
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "8D";
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
-                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (++BackpatchCount + depth).toString(16);
-                        BackpatchTable[ASTN.children[1].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount).toString(16);
+                        exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount + depth).toString(16);
+                        BackpatchTable[ASTN.children[1].value[1].charCodeAt(0) - 97][0] = "T" + (++BackpatchCount).toString(16);
                         ExecutableImageSize = ExecutableImageSize + 2;
                     }
                 }
@@ -60,7 +60,6 @@ var MECH_LL;
                         ExecutableImageSize = ExecutableImageSize + 1;
                         lowerBound = ExecutableImageSize % 16;
                         exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "T" + (BackpatchCount).toString(16);
-                        BackpatchTable[ASTN.children[0].value[1].charCodeAt(0) - 97][0] = "T" + (BackpatchCount).toString(16);
                         ExecutableImageSize = ExecutableImageSize + 2;
                     }
                 }
@@ -80,6 +79,8 @@ var MECH_LL;
                                 exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = parseInt(ASTN.children[0].value[1], 16);
                             }
                             ExecutableImageSize = ExecutableImageSize + 1;
+                        }
+                        else {
                         }
                     }
                 }
@@ -127,8 +128,30 @@ var MECH_LL;
                     }
                 }
                 else if (ASTN.value[0] === "IfStmt") {
+                    var lowerBound = ExecutableImageSize % 16;
+                    exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "A2";
                     MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[0], ST, depth);
+                    lowerBound = ExecutableImageSize % 16;
+                    exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "A9";
+                    ExecutableImageSize = ExecutableImageSize + 1;
+                    lowerBound = ExecutableImageSize % 16;
+                    exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "01";
+                    ExecutableImageSize = ExecutableImageSize + 1;
+                    lowerBound = ExecutableImageSize % 16;
+                    exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "8D";
+                    ExecutableImageSize = ExecutableImageSize + 3;
+                    lowerBound = ExecutableImageSize % 16;
+                    exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "EC";
+                    ExecutableImageSize = ExecutableImageSize + 3;
+                    lowerBound = ExecutableImageSize % 16;
+                    exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "D0";
+                    ExecutableImageSize = ExecutableImageSize + 1;
+                    lowerBound = ExecutableImageSize % 16;
+                    exeImage[Math.floor(ExecutableImageSize / 16)][lowerBound] = "J" + (JumpLength);
+                    JumpTable.push(["J" + JumpLength,]);
+                    ExecutableImageSize = ExecutableImageSize + 1;
                     MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[1], ST, depth);
+                    JumpTable[JumpLength][1] = ExecutableImageSize.toString(16);
                 }
                 else if (ASTN.value[0] === "WhileStmt") {
                     MECH_LL.CodeEngine.generateCodeFromTreeNode(ASTN.children[0], ST, depth);
@@ -235,7 +258,6 @@ var MECH_LL;
                     BackpatchTable[i][1] = ExecutableImageSize.toString(16);
                     ExecutableImageSize = ExecutableImageSize + 1;
                 }
-                i++;
             }
         };
         CodeEngine.backpatch = function () {
@@ -244,15 +266,28 @@ var MECH_LL;
                 while (j < 0xFF) {
                     if (BackpatchTable[i][0] === exeImage[Math.floor(j / 16)][j % 16]) {
                         if (parseInt(BackpatchTable[i][1], 16) < 16) {
-                            exeImage[Math.floor(j / 16)][j] = "0" + BackpatchTable[i][1];
+                            exeImage[Math.floor(j / 16)][j % 16] = "0" + BackpatchTable[i][1];
                         }
                         else {
-                            exeImage[Math.floor(j / 16)][j] = BackpatchTable[i][1];
+                            exeImage[Math.floor(j / 16)][j % 16] = BackpatchTable[i][1];
                         }
                     }
                     j++;
                 }
-                i++;
+            }
+            for (var i = 0; i < JumpTable.length; i++) {
+                var j = 0;
+                while (j < 0xFF) {
+                    if (JumpTable[i][0] === exeImage[Math.floor(j / 16)][j % 16]) {
+                        if (parseInt(JumpTable[i][1], 16) < 16) {
+                            exeImage[Math.floor(j / 16)][j % 16] = "0" + JumpTable[i][1];
+                        }
+                        else {
+                            exeImage[Math.floor(j / 16)][j % 16] = JumpTable[i][1];
+                        }
+                    }
+                    j++;
+                }
             }
         };
         return CodeEngine;

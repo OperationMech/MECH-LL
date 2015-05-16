@@ -36,7 +36,9 @@ var HeapSize = 0;
 
 var BackpatchTable = [[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,],[,]];
 var BackpatchCount = 0;
-var jumpTable;
+
+var JumpLength = 0;
+var JumpTable = [];
 
 var exeImage = [];
 
